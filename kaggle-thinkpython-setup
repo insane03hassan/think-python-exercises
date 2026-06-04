@@ -1,0 +1,25 @@
+# Cell 1 - Download dependencies
+from os.path import basename, exists
+
+def download(url):
+    filename = basename(url)
+    if not exists(filename):
+        from urllib.request import urlretrieve
+        local, _ = urlretrieve(url, filename)
+        print("Downloaded " + str(local))
+    return filename
+
+download('https://github.com/AllenDowney/ThinkPython/raw/v3/diagram.py')
+download('https://github.com/ramalho/jupyturtle/releases/download/2024-03/jupyturtle.py')
+
+# Cell 2 - Fix and import thinkpython
+!wget https://raw.githubusercontent.com/AllenDowney/ThinkPython/v3/thinkpython.py
+
+with open('thinkpython.py', 'r') as f:
+    content = f.read()
+content = content.replace('import imp', 'import importlib')
+content = content.replace('imp.', 'importlib.')
+with open('thinkpython.py', 'w') as f:
+    f.write(content)
+
+import thinkpython
